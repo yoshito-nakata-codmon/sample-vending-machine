@@ -8,11 +8,18 @@ use PHPUnit\Framework\TestCase;
 class MainTest extends TestCase
 {
 
-  const COLA = 'cola'; #120円
-  const PET_COFFEE = 'pet_coffee'; #150円
-  const ENERGY_DRINK = 'energy_drink'; #210円
+  const COLA = 'cola'; // 120円
+  const PET_COFFEE = 'pet_coffee'; // 150円
+  const ENERGY_DRINK = 'energy_drink'; // 210円
   
   const NO_CHANGE = 'nochange';
+
+  // 120円支払ってコーラを買う
+  const INPUT_A = ['coins' => [
+    '100' => 1,
+    '10' => 2,
+  ],
+  'menu' => MainTest::COLA];
 
   public function test_もっとも通常のパターン_120円払ってコーラを買う()
   {
@@ -24,11 +31,7 @@ class MainTest extends TestCase
       '10' => 999,
     ];
     $userInputs = [
-      ['coins' => [
-        '100' => 1,
-        '10' => 2,
-      ],
-      'menu' => MainTest::COLA]
+      MainTest::INPUT_A, // 120円支払ってコーラを買う
     ];
     $expectedChange = MainTest::NO_CHANGE;
 
