@@ -7,6 +7,9 @@
         "test": [
           "vendor/bin/phpunit ./tests"
         ],
+        "test-round1": [
+          "vendor/bin/phpunit ./tests --group round1"
+        ],
         "lint": [
           "vendor/bin/php-cs-fixer fix"
         ]
