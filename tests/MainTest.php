@@ -7,12 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 class MainTest extends TestCase
 {
-
-  const COLA = 'cola'; // 120円
-  const PET_COFFEE = 'pet_coffee'; // 150円
-  const ENERGY_DRINK = 'energy_drink'; // 210円
+  const COLA = 'cola'; // コーラ120円
+  const COFFEE = 'coffee'; // コーヒー150円
+  const ENERGY_DRINK = 'energy_drink'; // エナジードリンク210円
   
-  const NO_CHANGE = 'nochange';
+  const NO_CHANGE = 'nochange'; // おつりなし
 
   // 120円支払ってコーラを買う
   const INPUT_A = ['coins' => [
@@ -21,17 +20,17 @@ class MainTest extends TestCase
   ],
   'menu' => MainTest::COLA];
 
-  // 200円支払ってコーラを買う
+  // 200円支払ってコーヒーを買う
   const INPUT_B = ['coins' => [
     '100' => 2,
   ],
-  'menu' => MainTest::COLA];
+  'menu' => MainTest::COFFEE];
 
-  // 1000円支払ってコーラを買う
+  // 1000円支払ってエナジードリンクを買う
   const INPUT_C = ['coins' => [
     '1000' => 1,
   ],
-  'menu' => MainTest::COLA];
+  'menu' => MainTest::ENERGY_DRINK];
 
   /**
    * @dataProvider provider_もっとも通常のパターン
@@ -48,7 +47,7 @@ class MainTest extends TestCase
     $expectedChange = MainTest::NO_CHANGE;
 
     // When
-    $actual = Main::runSingle($vendingMachineCoins, $userInput);
+    $actual = Main::run($vendingMachineCoins, $userInput);
 
     // Then
     $this->assertSame($actual, $expectedChange);
@@ -56,11 +55,11 @@ class MainTest extends TestCase
 
   public function provider_もっとも通常のパターン()
   {
-      // $vendingMachineCoins, $userInput
+      // $userInput, $expectedChange
       return [
           "120円支払ってコーラを買う" => [MainTest::INPUT_A, MainTest::NO_CHANGE],
-          "200円支払ってコーラを買う" => [MainTest::INPUT_B, ['50' => 1, '10' => 3]],
-          "1000円支払ってコーラを買う" => [MainTest::INPUT_C, ['500' => 1, '100' => 3, '50' => 1, '10' => 3]],
+          "200円支払ってコーヒーを買う" => [MainTest::INPUT_B, "50 1"],
+          "1000円支払ってエナジードリンクを買う" => [MainTest::INPUT_C, "500 1 100 2 50 1 10 4"],
       ];
   }
 }
