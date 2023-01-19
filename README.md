@@ -8,4 +8,8 @@
 composer install
 ```
 
-`./vendor/bin/phpunit test`が実行できていればOK。
+`composer test`が実行できていればOK。
+
+## linter (php-cs-fixer)
+
+プロジェクト直下で`composer lint`を実行。`src`内が勝手にフォーマットされます。
