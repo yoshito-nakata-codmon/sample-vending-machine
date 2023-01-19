@@ -21,7 +21,22 @@ class MainTest extends TestCase
   ],
   'menu' => MainTest::COLA];
 
-  public function test_もっとも通常のパターン_120円払ってコーラを買う()
+  // 200円支払ってコーラを買う
+  const INPUT_B = ['coins' => [
+    '100' => 2,
+  ],
+  'menu' => MainTest::COLA];
+
+  // 1000円支払ってコーラを買う
+  const INPUT_C = ['coins' => [
+    '1000' => 1,
+  ],
+  'menu' => MainTest::COLA];
+
+  /**
+   * @dataProvider provider_もっとも通常のパターン
+   */
+  public function test_もっとも通常のパターン($userInput, $expectedChange)
   {
     // Given
     $vendingMachineCoins = [
@@ -30,16 +45,22 @@ class MainTest extends TestCase
       '50' => 999,
       '10' => 999,
     ];
-    $userInputs = [
-      MainTest::INPUT_A, // 120円支払ってコーラを買う
-    ];
     $expectedChange = MainTest::NO_CHANGE;
 
     // When
-    $actual = Main::run($vendingMachineCoins, $userInputs);
+    $actual = Main::runSingle($vendingMachineCoins, $userInput);
 
     // Then
     $this->assertSame($actual, $expectedChange);
+  }
 
+  public function provider_もっとも通常のパターン()
+  {
+      // $vendingMachineCoins, $userInput
+      return [
+          "120円支払ってコーラを買う" => [MainTest::INPUT_A, MainTest::NO_CHANGE],
+          "200円支払ってコーラを買う" => [MainTest::INPUT_B, ['50' => 1, '10' => 3]],
+          "1000円支払ってコーラを買う" => [MainTest::INPUT_C, ['500' => 1, '100' => 3, '50' => 1, '10' => 3]],
+      ];
   }
 }
