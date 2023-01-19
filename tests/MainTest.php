@@ -5,7 +5,7 @@ require_once(__DIR__ . "/../../src/main.php");
 
 use PHPUnit\Framework\TestCase;
 
-class IntegrationTest extends TestCase
+class MainTest extends TestCase
 {
 
   const COLA = 'cola'; #120円
@@ -28,9 +28,9 @@ class IntegrationTest extends TestCase
         '100' => 1,
         '10' => 2,
       ],
-      'menu' => IntegrationTest::COLA]
+      'menu' => MainTest::COLA]
     ];
-    $expectedChange = IntegrationTest::NO_CHANGE;
+    $expectedChange = MainTest::NO_CHANGE;
 
     // When
     $actual = Main::run($vendingMachineCoins, $userInputs);
