@@ -56,4 +56,30 @@ class MainTest extends TestCase
             // テストケース追加のPR募集中
         ];
     }
+
+    /**
+     * @group round2
+     * @dataProvider provider_自動販売機の硬貨の枚数を考慮するパターン
+     */
+    public function test_round2_自動販売機の硬貨の枚数を考慮するパターン($coins, $menu, $expectedChange)
+    {
+        // Given: provider
+        // When
+        $actual = Main::runSimply($coins, $menu);
+
+        // Then
+        $this->assertSame($actual, $expectedChange);
+    }
+
+    public function provider_自動販売機の硬貨の枚数を考慮するパターン()
+    {
+        // $coins, $menu, $expectedChange
+        return [
+            "制約なくおつりが払える" => [MainTest::INPUT_A["coins"], MainTest::INPUT_A["menu"], MainTest::NO_CHANGE],
+            "50円玉が切れている場合10円玉でおつりを払う" => [MainTest::INPUT_B["coins"], MainTest::INPUT_B["menu"], "50 1"],
+            // 応用なのでコメントアウト
+            "両替目的の購入に応じない" => [],
+            // テストケース追加のPR募集中
+        ];
+    }
 }
