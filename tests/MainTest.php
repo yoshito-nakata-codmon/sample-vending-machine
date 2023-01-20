@@ -53,6 +53,7 @@ class MainTest extends TestCase
             "120円支払ってコーラを買う" => [MainTest::INPUT_A["coins"], MainTest::INPUT_A["menu"], MainTest::NO_CHANGE],
             "200円支払ってコーヒーを買う" => [MainTest::INPUT_B["coins"], MainTest::INPUT_B["menu"], "50 1"],
             "1000円支払ってエナジードリンクを買う" => [MainTest::INPUT_C["coins"], MainTest::INPUT_C["menu"], "500 1 100 2 50 1 10 4"],
+            // テストケース追加のPR募集中
         ];
     }
 }
