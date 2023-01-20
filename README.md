@@ -35,6 +35,21 @@ $change = Main::runSimply($coins, $menu);
 echo($change); // "nochange" (おつりがない場合)
 ```
 
+```php
+// 100円が2枚
+$coins = [
+  '100' => 2,
+];
+
+// コーラは120円とする
+$menu = 'cola';
+
+// 購入処理
+$change = Main::runSimply($coins, $menu);
+
+echo($change); // "50 1 10 3" (50円が1枚、10円が3枚)
+```
+
 
 ## linter (php-cs-fixer)
 
