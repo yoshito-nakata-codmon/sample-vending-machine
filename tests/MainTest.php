@@ -55,12 +55,4 @@ class MainTest extends TestCase
             "1000円支払ってエナジードリンクを買う" => [MainTest::INPUT_C["coins"], MainTest::INPUT_C["menu"], "500 1 100 2 50 1 10 4"],
         ];
     }
-
-    // ほぼ無限に硬貨が補充されている
-    public const VENDING_MACHINE_COINS_INF = [
-      '500' => 999,
-      '100' => 999,
-      '50' => 999,
-      '10' => 999,
-    ];
 }
