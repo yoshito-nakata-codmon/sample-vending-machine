@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+/**
+ * メインクラス。
+ * 原則ここにロジックは書かないこと。
+ */
 class Main
 {
     /**
