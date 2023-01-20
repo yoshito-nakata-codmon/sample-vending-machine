@@ -7,14 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class MainTest extends TestCase
 {
-    // ほぼ無限に硬貨が補充されている
-    public const VENDING_MACHINE_COINS_INF = [
-      '500' => 999,
-      '100' => 999,
-      '50' => 999,
-      '10' => 999,
-    ];
-
     public const COLA = 'cola'; // コーラ120円
     public const COFFEE = 'coffee'; // コーヒー150円
     public const ENERGY_DRINK = 'energy_drink'; // エナジードリンク210円
@@ -44,11 +36,11 @@ class MainTest extends TestCase
      * @group round1
      * @dataProvider provider_もっとも通常のパターン
      */
-    public function test_もっとも通常のパターン($userInput, $expectedChange)
+    public function test_round1_もっとも通常のパターン($coins, $menu, $expectedChange)
     {
-        // Given
+        // Given: provider
         // When
-        $actual = Main::run(MainTest::VENDING_MACHINE_COINS_INF, $userInput);
+        $actual = Main::runSimply($coins, $menu);
 
         // Then
         $this->assertSame($actual, $expectedChange);
@@ -56,11 +48,19 @@ class MainTest extends TestCase
 
     public function provider_もっとも通常のパターン()
     {
-        // $userInput, $expectedChange
+        // $coins, $menu, $expectedChange
         return [
-            "120円支払ってコーラを買う" => [MainTest::INPUT_A, MainTest::NO_CHANGE],
-            "200円支払ってコーヒーを買う" => [MainTest::INPUT_B, "50 1"],
-            "1000円支払ってエナジードリンクを買う" => [MainTest::INPUT_C, "500 1 100 2 50 1 10 4"],
+            "120円支払ってコーラを買う" => [MainTest::INPUT_A["coins"], MainTest::INPUT_A["menu"], MainTest::NO_CHANGE],
+            "200円支払ってコーヒーを買う" => [MainTest::INPUT_B["coins"], MainTest::INPUT_B["menu"], "50 1"],
+            "1000円支払ってエナジードリンクを買う" => [MainTest::INPUT_C["coins"], MainTest::INPUT_C["menu"], "500 1 100 2 50 1 10 4"],
         ];
     }
+
+    // ほぼ無限に硬貨が補充されている
+    public const VENDING_MACHINE_COINS_INF = [
+      '500' => 999,
+      '100' => 999,
+      '50' => 999,
+      '10' => 999,
+    ];
 }
