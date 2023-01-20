@@ -10,6 +10,12 @@
         "test-round1": [
           "vendor/bin/phpunit ./tests --group round1"
         ],
+        "test-round2": [
+          "vendor/bin/phpunit ./tests --group round2"
+        ],
+        "test-round3": [
+          "vendor/bin/phpunit ./tests --group round3"
+        ],
         "lint": [
           "vendor/bin/php-cs-fixer fix"
         ]
