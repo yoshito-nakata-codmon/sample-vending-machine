@@ -32,6 +32,14 @@ class MainTest extends TestCase
     ],
     'menu' => MainTest::ENERGY_DRINK];
 
+    // ほぼ無限に硬貨が補充されている
+    public const VENDING_MACHINE_COINS_INF = [
+        '500' => 999,
+        '100' => 999,
+        '50' => 999,
+        '10' => 999,
+      ];
+
     /**
      * @group round1
      * @dataProvider provider_もっとも通常のパターン
@@ -61,11 +69,11 @@ class MainTest extends TestCase
      * @group round2
      * @dataProvider provider_自動販売機の硬貨の枚数を考慮するパターン
      */
-    public function test_round2_自動販売機の硬貨の枚数を考慮するパターン($coins, $menu, $expectedChange)
+    public function test_round2_自動販売機の硬貨の枚数を考慮するパターン($vendingMachineCoins, $userInput, $expectedChange)
     {
         // Given: provider
         // When
-        $actual = Main::runSimply($coins, $menu);
+        $actual = Main::run($vendingMachineCoins, $userInput);
 
         // Then
         $this->assertSame($actual, $expectedChange);
@@ -73,12 +81,24 @@ class MainTest extends TestCase
 
     public function provider_自動販売機の硬貨の枚数を考慮するパターン()
     {
-        // $coins, $menu, $expectedChange
+        $vendingMachineCoins_scenario2 = [
+            '500' => 999,
+            '100' => 999,
+            '50' => 0,
+            '10' => 999,
+        ];
+        $userInput_scenario3 = [
+            "coins" => [
+                '100' => 1,
+                '10' => 10,
+            ],
+            "menu" => MainTest::COLA,
+        ];
         return [
-            "制約なくおつりが払える" => [MainTest::INPUT_A["coins"], MainTest::INPUT_A["menu"], MainTest::NO_CHANGE],
-            "50円玉が切れている場合10円玉でおつりを払う" => [MainTest::INPUT_B["coins"], MainTest::INPUT_B["menu"], "50 1"],
-            // 応用なのでコメントアウト
-            "両替目的の購入に応じない" => [],
+            "制約なくおつりが払える" => [MainTest::VENDING_MACHINE_COINS_INF, MainTest::INPUT_C, "500 1 100 2 50 1 10 4"],
+            "50円玉が切れている場合10円玉でおつりを払う" => [$vendingMachineCoins_scenario2, MainTest::INPUT_B, "10 5"],
+            // 応用なのでコメントアウト。こういうドメイン知識もきっとあるだろう
+            // "両替目的の購入に応じない" => [MainTest::VENDING_MACHINE_COINS_INF, $userInput_scenario3, "10 8"],
             // テストケース追加のPR募集中
         ];
     }
