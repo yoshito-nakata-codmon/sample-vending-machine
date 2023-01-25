@@ -19,5 +19,10 @@
         "lint": [
           "vendor/bin/php-cs-fixer fix"
         ]
-    }
+    },
+    "autoload": {
+      "psr-4": {
+          "src\\": "src/"
+      }
+  }
 }
