@@ -26,7 +26,8 @@ class Main
     {
         $purchase = new Purchase();
         try {
-            $changeCoins = $purchase->run($coins, $menu);
+            $coinsObj = CoinsConverter::fromArray($coins);
+            $changeCoins = $purchase->run($coinsObj, $menu);
             return CoinsConverter::toString($changeCoins);
         } catch(\Exception $e) {
             return $e->getMessage();
