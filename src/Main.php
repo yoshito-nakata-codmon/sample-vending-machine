@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+use src\usecases\Purchase;
+use src\ui\CoinsConverter;
+
+require_once(__DIR__ . "/../vendor/autoload.php");
+
 /**
  * メインクラス。
  * 原則ここにロジックは書かないこと。
@@ -19,7 +24,13 @@ class Main
      */
     public static function runSimply(array $coins, string $menu): string
     {
-        return "do implementation";
+        $purchase = new Purchase();
+        try {
+            $changeCoins = $purchase->run($coins, $menu);
+            return CoinsConverter::toString($changeCoins);
+        } catch(\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     /**

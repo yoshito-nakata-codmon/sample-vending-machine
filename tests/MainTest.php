@@ -51,7 +51,7 @@ class MainTest extends TestCase
         $actual = Main::runSimply($coins, $menu);
 
         // Then
-        $this->assertSame($actual, $expectedChange);
+        $this->assertSame($expectedChange, $actual);
     }
 
     public function provider_もっとも通常のパターン()
@@ -76,7 +76,7 @@ class MainTest extends TestCase
         $actual = Main::run($vendingMachineCoins, $userInput);
 
         // Then
-        $this->assertSame($actual, $expectedChange);
+        $this->assertSame($expectedChange, $actual);
     }
 
     public function provider_自動販売機の硬貨の枚数を考慮するパターン()
