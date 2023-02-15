@@ -7,9 +7,17 @@ namespace src\usecases;
 use Exception;
 use src\domain\models\Coins;
 use src\domain\models\Menu;
+use src\domain\repositories\ICoinRepository;
 
 class Purchase
 {
+    private ICoinRepository $coinRepository;
+
+    public function __construct(ICoinRepository $coinRepository)
+    {
+        $this->coinRepository = $coinRepository;
+    }
+
     /**
      * @throws Exception
      */
@@ -30,5 +38,7 @@ class Purchase
 
         // おつりの硬貨構成を決めて返却
         return Coins::ofAmount($change);
+        // TODO: Repositoryから硬貨を取得する
+        // TODO: なければより小さい硬貨で代替する
     }
 }

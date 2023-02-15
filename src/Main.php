@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use src\infrastructure\repositories\CoinRepositoryOnArgs;
 use src\usecases\Purchase;
 use src\ui\CoinsConverter;
 
@@ -24,7 +25,15 @@ class Main
      */
     public static function runSimply(array $coins, string $menu): string
     {
-        $purchase = new Purchase();
+        $coinRepository = new CoinRepositoryOnArgs([
+            '500' => 999,
+            '100' => 999,
+            '50' => 999,
+            '10' => 999,
+            '5' => 999,
+            '1' => 999,
+        ]);
+        $purchase = new Purchase($coinRepository);
         try {
             $coinsObj = CoinsConverter::fromArray($coins);
             $changeCoins = $purchase->run($coinsObj, $menu);
@@ -45,6 +54,14 @@ class Main
      */
     public static function run(array $vendingMachineCoins, array $userInput): string
     {
-        return "do implementation";
+        $coinRepository = new CoinRepositoryOnArgs($vendingMachineCoins);
+        $purchase = new Purchase($coinRepository);
+        try {
+            $coinsObj = CoinsConverter::fromArray($userInput['coins']);
+            $changeCoins = $purchase->run($coinsObj, $userInput['coins']);
+            return CoinsConverter::toString($changeCoins);
+        } catch(\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }
