@@ -10,9 +10,9 @@ class Coins
 {
     private array $list;
 
-    public function __construct()
+    public function __construct(array $list = [])
     {
-        $this->list = [];
+        $this->list = $list;
     }
 
     public function add(Coin $coin): Coins
@@ -26,6 +26,8 @@ class Coins
      */
     public static function ofAmount(int $amount): Coins
     {
+        if($amount < 0) throw new \Exception('金額不正: '.$amount);
+
         $coinValuesDesc = Coin::values(true);
 
         $coins = new Coins();
