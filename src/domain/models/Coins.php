@@ -21,6 +21,11 @@ class Coins
         return $this;
     }
 
+    public function concat(Coins $other): Coins
+    {
+        return new Coins(array_merge($this->list, $other->list));
+    }
+
     /**
      * @throws Exception
      */

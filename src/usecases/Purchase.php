@@ -8,6 +8,7 @@ use Exception;
 use src\domain\models\Coins;
 use src\domain\models\Menu;
 use src\domain\repositories\ICoinRepository;
+use src\domain\services\CoinManager;
 
 class Purchase
 {
@@ -36,9 +37,16 @@ class Purchase
             throw new Exception('不足金額: ' . "$change");
         }
 
-        // おつりの硬貨構成を決めて返却
-        return Coins::ofAmount($change);
-        // TODO: Repositoryから硬貨を取得する
-        // TODO: なければより小さい硬貨で代替する
+        // おつりの硬貨構成を決める
+        $changeCoins = Coins::ofAmount($change);
+
+        // 必要な硬貨を取得する
+        $coinManager = new CoinManager($this->coinRepository);
+        $changeCoinsSubstance = new Coins();
+        foreach ($changeCoins->getList() as $coin) {
+            $changeCoinsSubstance = $changeCoinsSubstance->concat($coinManager->get($coin));
+        }
+
+        return $changeCoinsSubstance;
     }
 }

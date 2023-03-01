@@ -45,4 +45,15 @@ enum Coin: int
         }
         return $values;
     }
+
+    public function smaller(): ?Coin
+    {
+        $values = self::values(true);
+        $index = array_search($this->value, $values);
+        if(array_key_exists($index + 1, $values)) {
+            return Coin::from($values[$index + 1]);
+        } else {
+            return null;
+        }
+    }
 }

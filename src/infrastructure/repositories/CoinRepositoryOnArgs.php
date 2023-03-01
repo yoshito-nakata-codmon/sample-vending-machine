@@ -2,6 +2,7 @@
 
 namespace src\infrastructure\repositories;
 
+use src\domain\models\Coin;
 use src\domain\repositories\ICoinRepository;
 
 class CoinRepositoryOnArgs implements ICoinRepository
@@ -10,6 +11,17 @@ class CoinRepositoryOnArgs implements ICoinRepository
 
     public function __construct(array $coinMap)
     {
-        $this->map = $coinMap;
+        foreach ($coinMap as $key => $value) {
+            $this->map[intval($key)] = $value;
+        }
+    }
+
+    public function pop(Coin $coin): ?Coin{
+        if($this->map[$coin->value] > 0) {
+            $this->map[$coin->value]--;
+            return $coin;
+        } else {
+            return null;
+        }
     }
 }

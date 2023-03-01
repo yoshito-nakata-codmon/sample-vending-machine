@@ -58,7 +58,7 @@ class Main
         $purchase = new Purchase($coinRepository);
         try {
             $coinsObj = CoinsConverter::fromArray($userInput['coins']);
-            $changeCoins = $purchase->run($coinsObj, $userInput['coins']);
+            $changeCoins = $purchase->run($coinsObj, $userInput['menu']);
             return CoinsConverter::toString($changeCoins);
         } catch(\Exception $e) {
             return $e->getMessage();
