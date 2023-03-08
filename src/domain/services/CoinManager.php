@@ -24,14 +24,14 @@ class CoinManager
     public function get(Coin $coin): Coins
     {
         $requiredAmount = $coin->value;
-        $coins = new Coins();
+        $returnCoins = new Coins();
 
         $requiredCoin = $coin;
         while($requiredAmount > 0) {
             $maybeCoin = $this->coinRepository->pop($requiredCoin);
             if($maybeCoin) {
                 $requiredAmount -= $maybeCoin->value;
-                $coins->add($maybeCoin);
+                $returnCoins->add($maybeCoin);
             } else {
                 $requiredCoin = $requiredCoin->smaller();
                 if(!$requiredCoin) {
@@ -40,6 +40,6 @@ class CoinManager
             }
         }
 
-        return $coins;
+        return $returnCoins;
     }
 }

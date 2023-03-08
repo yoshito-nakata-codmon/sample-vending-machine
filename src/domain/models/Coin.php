@@ -19,39 +19,37 @@ enum Coin: int
      */
     public static function fromAmount(int $amount): Coin
     {
-        return match(true) {
-            $amount === 1000 => self::YEN_1000,
-            $amount === 500 => self::YEN_500,
-            $amount === 100 => self::YEN_100,
-            $amount === 50 => self::YEN_50,
-            $amount === 10 => self::YEN_10,
-            $amount === 5 => self::YEN_5,
-            $amount === 1 => self::YEN_1,
-            default => throw new Exception('硬貨の金額が不正: '."$amount")
-        };
+        try {
+            return Coin::from($amount);
+        } catch(\ValueError $e) {
+            throw new Exception('硬貨の金額が不正: '."$amount");
+        }
     }
 
     public static function values(bool $desc = false): array
     {
-        $types = self::cases();
-        $values = [];
-        foreach ($types as $coinType) {
-            $values[] = $coinType->value;
-        }
+        $values = array_map(function(Coin $coinType): int {
+            return $coinType->value;
+        }, self::cases());
+
         if($desc) {
             rsort($values, SORT_NUMERIC);
         } else {
             sort($values, SORT_NUMERIC);
         }
+
         return $values;
     }
 
+    /**
+     * @throws Exception
+     */
     public function smaller(): ?Coin
     {
         $values = self::values(true);
         $index = array_search($this->value, $values);
         if(array_key_exists($index + 1, $values)) {
-            return Coin::from($values[$index + 1]);
+            return Coin::fromAmount($values[$index + 1]);
         } else {
             return null;
         }

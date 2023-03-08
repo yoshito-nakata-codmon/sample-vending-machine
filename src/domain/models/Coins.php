@@ -52,11 +52,10 @@ class Coins
 
     public function sum(): int
     {
-        $sum = 0;
-        foreach ($this->list as $coin) {
-            $sum += $coin->value;
-        }
-        return $sum;
+        return array_reduce($this->list, function(int $carry, Coin $item) {
+            $carry += $item->value;
+            return $carry;
+        }, 0);
     }
 
     public function isEmpty(): bool

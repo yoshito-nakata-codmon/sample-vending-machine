@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use src\infrastructure\repositories\CoinRepositoryOnArgs;
+use src\infrastructure\repositories\CoinRepositoryOnArg;
 use src\usecases\Purchase;
 use src\ui\CoinsConverter;
 
@@ -25,14 +25,7 @@ class Main
      */
     public static function runSimply(array $coins, string $menu): string
     {
-        $coinRepository = new CoinRepositoryOnArgs([
-            '500' => 999,
-            '100' => 999,
-            '50' => 999,
-            '10' => 999,
-            '5' => 999,
-            '1' => 999,
-        ]);
+        $coinRepository = new CoinRepositoryOnArg();
         $purchase = new Purchase($coinRepository);
         try {
             $coinsObj = CoinsConverter::fromArray($coins);
@@ -54,7 +47,7 @@ class Main
      */
     public static function run(array $vendingMachineCoins, array $userInput): string
     {
-        $coinRepository = new CoinRepositoryOnArgs($vendingMachineCoins);
+        $coinRepository = new CoinRepositoryOnArg($vendingMachineCoins);
         $purchase = new Purchase($coinRepository);
         try {
             $coinsObj = CoinsConverter::fromArray($userInput['coins']);
